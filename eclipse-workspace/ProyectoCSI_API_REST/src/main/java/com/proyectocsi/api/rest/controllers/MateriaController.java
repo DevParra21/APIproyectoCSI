@@ -1,0 +1,64 @@
+package com.proyectocsi.api.rest.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.proyectocsi.api.rest.models.entity.Materia;
+import com.proyectocsi.api.rest.models.services.IMateriaService;
+
+@CrossOrigin(origins = {"http://localhost:4200"})
+@RestController
+@RequestMapping("/api")
+public class MateriaController {
+	
+	@Autowired
+	private IMateriaService materia;
+	
+	@GetMapping("/materias")
+	public List<Materia> index(){
+		return materia.findAll();
+	}
+	
+	@GetMapping("/materias/{id}")
+	public Materia show(@PathVariable Long id) {
+		return this.materia.findById(id);
+	}
+	
+	@PostMapping("registra-materia")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public Materia create(@RequestBody Materia materia) {
+		return this.materia.save(materia);
+	}
+	
+	@PutMapping("modifica-materia/{id}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public Materia update(@RequestBody Materia materia, @PathVariable Long id) {
+		Materia materiaActual = this.materia.findById(id);
+		
+		materiaActual.setClaveMateria(materia.getClaveMateria());
+		materiaActual.setNombreMateria(materia.getNombreMateria());
+		
+		return this.materia.save(materiaActual);
+		
+	}
+	
+	@DeleteMapping("elimina-materia/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void delete(@PathVariable Long id) {
+		this.materia.delete(id);
+	}
+	
+	
+}

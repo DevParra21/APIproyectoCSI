@@ -1,0 +1,84 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.util.Date;
+
+public class Alumno {
+	private Long matricula;
+	private String nombre;
+	private String apPaterno;
+	private String apMaterno;
+	private String nombreUsuario;
+	private String contrasenia;
+	private int estatus;
+	private Date fechaAlta;
+	private String usuarioAlta;
+	private Date fechaUltimaModificacion;
+	private String usuarioUltimaModificacion;
+	
+	public Long getMatricula() {
+		return matricula;
+	}
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getApPaterno() {
+		return apPaterno;
+	}
+	public void setApPaterno(String apPaterno) {
+		this.apPaterno = apPaterno;
+	}
+	public String getApMaterno() {
+		return apMaterno;
+	}
+	public void setApMaterno(String apMaterno) {
+		this.apMaterno = apMaterno;
+	}
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+	public int getEstatus() {
+		return estatus;
+	}
+	public void setEstatus(int estatus) {
+		this.estatus = estatus;
+	}
+	public Date getFechaAlta() {
+		return fechaAlta;
+	}
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+	public String getUsuarioAlta() {
+		return usuarioAlta;
+	}
+	public void setUsuarioAlta(String usuarioAlta) {
+		this.usuarioAlta = usuarioAlta;
+	}
+	public Date getFechaUltimaModificacion() {
+		return fechaUltimaModificacion;
+	}
+	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) {
+		this.fechaUltimaModificacion = fechaUltimaModificacion;
+	}
+	public String getUsuarioUltimaModificacion() {
+		return usuarioUltimaModificacion;
+	}
+	public void setUsuarioUltimaModificacion(String usuarioUltimaModificacion) {
+		this.usuarioUltimaModificacion = usuarioUltimaModificacion;
+	}
+}

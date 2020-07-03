@@ -1,0 +1,23 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.proyectocsi.api.rest.models.dao.IMateriaDAO;
+import com.proyectocsi.api.rest.models.entity.Materia;
+
+@Service
+public class MateriaImpl implements IMateriaService {
+	
+	@Autowired
+	private IMateriaDAO materia;
+	
+	@Override
+	public List<Materia> findAll() {
+		// TODO Auto-generated method stub
+		return (List<Materia>) materia.findAll();
+	}
+
+}

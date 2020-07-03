@@ -1,0 +1,76 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Profesor")
+public class Profesor implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne
+	private Usuario usuario;
+
+	@Column(name = "numero_empleado", unique = true, nullable = false)
+	private Long numeroEmpleado;
+
+	@ManyToOne
+	private TipoProfesor tipoProfesor;
+
+	@ManyToOne
+	private EstatusProfesor estatusProfesor;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public TipoProfesor getTipoProfesor() {
+		return tipoProfesor;
+	}
+
+	public void setTipoProfesor(TipoProfesor tipoProfesor) {
+		this.tipoProfesor = tipoProfesor;
+	}
+
+	public EstatusProfesor getEstatusProfesor() {
+		return estatusProfesor;
+	}
+
+	public void setEstatusProfesor(EstatusProfesor estatusProfesor) {
+		this.estatusProfesor = estatusProfesor;
+	}
+
+	public Long getNumeroEmpleado() {
+		return numeroEmpleado;
+	}
+
+	public void setNumeroEmpleado(Long numeroEmpleado) {
+		this.numeroEmpleado = numeroEmpleado;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+}

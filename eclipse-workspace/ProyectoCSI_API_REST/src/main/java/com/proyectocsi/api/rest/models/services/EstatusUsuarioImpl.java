@@ -1,0 +1,25 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.proyectocsi.api.rest.models.dao.IEstatusUsuarioDAO;
+import com.proyectocsi.api.rest.models.entity.EstatusUsuario;
+
+@Service
+public class EstatusUsuarioImpl implements IEstatusUsuarioService {
+
+	@Autowired
+	private IEstatusUsuarioDAO estatusUsuarioDao;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EstatusUsuario> findAll() {
+		// TODO Auto-generated method stub
+		return (List<EstatusUsuario>) estatusUsuarioDao.findAll();
+	}
+	
+}

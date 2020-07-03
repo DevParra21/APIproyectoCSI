@@ -1,0 +1,164 @@
+##ENTIDAD - ROL
+CREATE TABLE Rol(
+	RolId TINYINT UNSIGNED AUTO_INCREMENT,
+	RolNombre VARCHAR(20),
+	PRIMARY KEY(RolId));
+
+##ENTIDAD - USUARIO	
+CREATE TABLE Usuario(
+	UsuId MEDIUMINT UNSIGNED AUTO_INCREMENT,
+	UsuRol TINYINT UNSIGNED NOT NULL,
+	UsuNombre VARCHAR(25) NOT NULL,
+	UsuApellidoPaterno VARCHAR(25) NOT NULL,
+	UsuApellidoMaterno VARCHAR(25) NOT NULL,
+	UsuNombreUsuario VARCHAR(20) NOT NULL,
+	UsuContrasenia CHAR(100) NOT NULL,
+	
+	UsuFechaAlta DATETIME NOT NULL DEFAULT NOW(),
+	UsuUsuarioAlta MEDIUMINT UNSIGNED,
+	UsuFechaUltimaModificacion DATETIME,
+	UsuUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	PRIMARY KEY(UsuId),
+	FOREIGN KEY(UsuRol) REFERENCES Rol(RolId),
+	FOREIGN KEY(UsuUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(UsuUsuarioUltimaModificacion) REFERENCES Usuario(UsuId));
+
+##TABLA DE REFERENCIA - TIPO DE INSTRUCTOR
+CREATE TABLE TipoProfesor(
+	TprId TINYINT UNSIGNED AUTO_INCREMENT,
+	TprNombre VARCHAR(25) NOT NULL,
+	PRIMARY KEY(TprId)
+);
+
+##TABLA DE REFERENCIA - ESTATUS DE INSTRUCTOR
+CREATE TABLE EstatusProfesor(
+	EprId TINYINT UNSIGNED AUTO_INCREMENT,
+	EprNombre VARCHAR(25) NOT NULL,
+	PRIMARY KEY(EprId)
+);
+	
+##ENTIDAD - PROFESOR
+CREATE TABLE Profesor(
+	ProId MEDIUMINT UNSIGNED AUTO_INCREMENT,
+	ProUsuario MEDIUMINT UNSIGNED NOT NULL,
+	ProNumeroEmpleado CHAR(8) NOT NULL,
+	ProTipo TINYINT UNSIGNED NOT NULL,
+	ProEstatus TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY(ProId, ProUsuario),
+	FOREIGN KEY(ProUsuario) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(ProTipo) REFERENCES TipoProfesor(TprId),
+	FOREIGN KEY(ProEstatus) REFERENCES EstatusProfesor(EprId)
+);
+
+##TABLA DE REFERENCIA EstatusAlumno
+CREATE TABLE EstatusAlumno(
+	EalId TINYINT UNSIGNED AUTO_INCREMENT,
+	EalNombre VARCHAR(25) UNIQUE,
+	PRIMARY KEY(EalId)
+);
+
+##ENTIDAD - ALUMNO
+CREATE TABLE Alumno(
+	AluId MEDIUMINT UNSIGNED AUTO_INCREMENT,
+	AluUsuario MEDIUMINT UNSIGNED UNIQUE,
+	AluEstatus TINYINT UNSIGNED,
+	AluSemestre TINYINT UNSIGNED,
+	AluPromedioGlobal FLOAT UNSIGNED,
+	AluFechaAlta DATETIME DEFAULT NOW(),
+	AluUsuarioAlta MEDIUMINT UNSIGNED,
+	AluFechaUltimaModificacion DATETIME,
+	AluUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	PRIMARY KEY(AluId),
+	FOREIGN KEY(AluUsuario) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(AluEstatus) REFERENCES EstatusAlumno(EalId),
+	FOREIGN KEY(AluUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(AluUsuarioUltimaModificacion) REFERENCES Usuario(UsuId)
+);
+
+
+##ENTIDAD - MATERIA
+CREATE TABLE Materia(
+	MatId MEDIUMINT UNSIGNED,
+	MatNombre VARCHAR(100) NOT NULL,
+	MatDescripcion VARCHAR(512),
+	MatSemestre TINYINT UNSIGNED NOT NULL,
+	MatValorCreditos TINYINT UNSIGNED NOT NULL,
+	MatHorasSemana TINYINT UNSIGNED NOT NULL,
+	MatFechaAlta DATETIME DEFAULT NOW(),
+	MatUsuarioAlta MEDIUMINT UNSIGNED,
+	MatFechaUltimaModificacion DATETIME,
+	MatUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	PRIMARY KEY(MatId),
+	FOREIGN KEY(MatUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(MatUsuarioUltimaModificacion) REFERENCES Usuario(UsuId)
+);
+
+##ENTIDAD - GRUPO
+CREATE TABLE Grupo(
+	GruMateria MEDIUMINT UNSIGNED,
+	GruId MEDIUMINT UNSIGNED,
+	GruProfesor MEDIUMINT UNSIGNED,
+	GruCupoMaximo TINYINT UNSIGNED NOT NULL,
+	GruFechaAlta DATETIME DEFAULT NOW(),
+	GruUsuarioAlta MEDIUMINT UNSIGNED,
+	GruFechaUltimaModificacion DATETIME,
+	GruUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	PRIMARY KEY(GruMateria, GruId),
+	FOREIGN KEY(GruMateria) REFERENCES Materia(MatId),
+	FOREIGN KEY(GruProfesor) REFERENCES Profesor(ProId),
+	FOREIGN KEY(GruUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(GruUsuarioUltimaModificacion) REFERENCES Usuario(UsuId)
+);
+
+##ENTIDAD ASOCIATIVA - GRUPOALUMNO (INSCRIPCION)
+CREATE TABLE Inscripcion(
+	InsGrupo MEDIUMINT UNSIGNED,
+	InsMateria MEDIUMINT UNSIGNED,
+	InsAlumno MEDIUMINT UNSIGNED,
+	InsCalificacionTeorica FLOAT UNSIGNED,
+	InsCalificacionProyecto FLOAT UNSIGNED,
+	InsCalificacionFinal FLOAT UNSIGNED,
+	InsAprobado BOOLEAN,
+	InsBaja BOOLEAN,
+	InsMotivoBaja VARCHAR(255),
+	InsFechaAlta DATETIME DEFAULT NOW(),
+	InsUsuarioAlta MEDIUMINT UNSIGNED,
+	InsFechaUltimaModificacion DATETIME,
+	InsUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	InsFechaBaja DATETIME,
+	InsUsuarioBaja MEDIUMINT UNSIGNED,
+	PRIMARY KEY(InsGrupo, InsMateria, InsAlumno),
+	FOREIGN KEY(InsMateria, InsGrupo) REFERENCES Grupo(GruMateria, GruId),
+	FOREIGN KEY(InsUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(InsUsuarioUltimaModificacion) REFERENCES Usuario(UsuId)
+);
+
+##ENTIDAD - TRANSACCIONES
+CREATE TABLE Transaccion(
+	TraId SMALLINT UNSIGNED,
+	TraNombre VARCHAR(64) UNIQUE,
+	TraFechaAlta DATETIME DEFAULT NOW(),
+	TraUsuarioAlta MEDIUMINT UNSIGNED,
+	TraFechaUltimaModificacion DATETIME,
+	TraUsuarioUltimaModificacion MEDIUMINT UNSIGNED,
+	PRIMARY KEY(TraId),
+	FOREIGN KEY(TraUsuarioAlta) REFERENCES Usuario(UsuId),
+	FOREIGN KEY(TraUsuarioUltimaModificacion) REFERENCES Usuario(UsuId)
+);
+
+#ENTIDAD ASOCIATIVA - ROL/TRANSACCION (ACCESOS)
+CREATE TABLE Acceso(
+	AccRol TINYINT UNSIGNED,
+	AccTransaccion SMALLINT UNSIGNED,
+	AccAgregar BOOLEAN,
+	AccModificar BOOLEAN,
+	AccEliminar BOOLEAN,
+	AccFechaAlta DATETIME DEFAULT NOW(),
+	AccUsuarioAlta MEDIUMINT UNSIGNED,
+	PRIMARY KEY(AccRol, AccTransaccion),
+	FOREIGN KEY(AccRol) REFERENCES rol(RolId),
+	FOREIGN KEY(AccTransaccion) REFERENCES Transaccion(TraId),
+	FOREIGN KEY(AccUsuarioAlta) REFERENCES Usuario(UsuId)
+);
+
+

@@ -1,0 +1,24 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.proyectocsi.api.rest.models.dao.IGrupoDAO;
+import com.proyectocsi.api.rest.models.entity.Grupo;
+
+@Service
+public class GrupoImpl implements IGrupoService {
+	
+	@Autowired
+	private IGrupoDAO grupo;
+
+	@Override
+	public List<Grupo> findAll() {
+		// TODO Auto-generated method stub
+		return (List<Grupo>) grupo.findAll();
+	}
+	
+	
+}

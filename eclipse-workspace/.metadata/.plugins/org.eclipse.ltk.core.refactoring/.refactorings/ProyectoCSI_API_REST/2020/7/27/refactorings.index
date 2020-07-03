@@ -1,0 +1,15 @@
+1593624151951	Delete element
+1593624979471	Rename type 'EstatusProfesor'
+1593625033775	Encapsulate field 'estatus'
+1593628081767	Encapsulate field 'estatusGrupo'
+1593629532808	Rename type 'IEstatusUsuarioImpl'
+1593629729984	Delete element
+1593632287045	Rename type 'ITipoProfesor'
+1593640394871	Rename type 'IAlumno'
+1593640411673	Rename type 'IEstatusGrupo'
+1593640424615	Rename type 'IEstatusMateria'
+1593640442183	Rename type 'IEstatusUsuario'
+1593640458395	Rename type 'IProfesor'
+1593640472060	Rename type 'ITipoProfesor'
+1593640509629	Rename type 'RolService'
+1593640528461	Rename type 'UsuarioService'

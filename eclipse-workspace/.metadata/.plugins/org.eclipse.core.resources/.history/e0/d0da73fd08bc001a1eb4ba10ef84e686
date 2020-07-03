@@ -1,0 +1,23 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.proyectocsi.api.rest.models.dao.IAlumnoDAO;
+import com.proyectocsi.api.rest.models.entity.Alumno;
+
+@Service
+public class AlumnoImpl implements IAlumnoService {
+	
+	@Autowired
+	private IAlumnoDAO alumno;
+	
+	@Override
+	public List<Alumno> findAll() {
+		// TODO Auto-generated method stub
+		return (List<Alumno>) alumno.findAll();
+	}
+	
+}

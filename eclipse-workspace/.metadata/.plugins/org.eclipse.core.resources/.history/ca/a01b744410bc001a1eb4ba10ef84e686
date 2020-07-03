@@ -1,0 +1,62 @@
+package com.proyectocsi.api.rest.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.services.IGrupoService;
+
+@CrossOrigin(origins = {"http://localhost:4200"})
+@RestController
+@RequestMapping("/api")
+public class GrupoController {
+	
+	@Autowired
+	private IGrupoService grupoService;
+	
+	@GetMapping("/grupos")
+	public List<Grupo> index(){
+		return this.grupoService.findAll();
+	}
+	
+	@GetMapping("/grupo/{id}")
+	public Grupo show(@PathVariable Long id) {
+		return this.grupoService.findById(id);
+	}
+	
+	@PostMapping("/registra-grupo")
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public Grupo create(@RequestBody Grupo grupo) {
+		return this.grupoService.save(grupo);
+	}
+	
+	@PutMapping("/modifica-grupo/{id}")
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public Grupo update(@RequestBody Grupo grupo, @PathVariable Long id) {
+		Grupo grupoActual = this.grupoService.findById(id);
+		
+		grupoActual.setCantidadAlumnos(grupo.getCantidadAlumnos());
+		grupoActual.setMateria(grupo.getMateria());
+		
+		return this.grupoService.save(grupoActual);
+		
+	}
+	
+	@DeleteMapping("/elimina-grupo/{id}")
+	public void delete(@PathVariable Long id) {
+		this.grupoService.delete(id);
+	}
+	
+}

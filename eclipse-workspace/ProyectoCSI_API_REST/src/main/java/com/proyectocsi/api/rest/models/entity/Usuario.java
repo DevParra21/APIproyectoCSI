@@ -1,0 +1,167 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+public class Usuario implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne
+	private Rol rol;
+	
+	@ManyToOne
+	private EstatusUsuario estatus;
+
+	@Column(length = 25, nullable = false)
+	private String nombre;
+
+	@Column(name = "apellido_paterno", length = 25, nullable = false)
+	private String apellidoPaterno;
+
+	@Column(name = "apellido_materno", length = 25, nullable = false)
+	private String apellidoMaterno;
+
+	@Column(name = "nombre_usuario", length = 20, nullable = false, unique = true)
+	private String nombreUsuario;
+
+	@Column(name = "contrasenia", length = 100, nullable = false)
+	private String contrasenia;
+
+	@Column(name = "fecha_alta")
+	@Temporal(TemporalType.DATE)
+	private Date fechaAlta;
+	
+	@OneToOne
+	private Usuario usuarioAlta;
+	
+	@Column(name = "fecha_ultima_modificacion")
+	@Temporal(TemporalType.DATE)
+	private Date fechaUltimaModificacion;
+	
+	@OneToOne
+	private Usuario usuarioUltimaModificacion;
+	
+	@PrePersist
+	public void prePersist() {
+		fechaAlta = new Date();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellidoPaterno() {
+		return apellidoPaterno;
+	}
+
+	public void setApellidoPaterno(String apellidoPaterno) {
+		this.apellidoPaterno = apellidoPaterno;
+	}
+
+	public String getApellidoMaterno() {
+		return apellidoMaterno;
+	}
+
+	public void setApellidoMaterno(String apellidoMaterno) {
+		this.apellidoMaterno = apellidoMaterno;
+	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public Usuario getUsuarioAlta() {
+		return usuarioAlta;
+	}
+
+	public void setUsuarioAlta(Usuario usuarioAlta) {
+		this.usuarioAlta = usuarioAlta;
+	}
+
+	public Date getFechaAlta() {
+		return fechaAlta;
+	}
+
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+	
+	public Usuario getUsuarioUltimaModificacion() {
+		return usuarioUltimaModificacion;
+	}
+
+	public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
+		this.usuarioUltimaModificacion = usuarioUltimaModificacion;
+	}
+
+	public Date getFechaUltimaModificacion() {
+		return fechaUltimaModificacion;
+	}
+
+	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) {
+		this.fechaUltimaModificacion = fechaUltimaModificacion;
+	}
+
+	public EstatusUsuario getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(EstatusUsuario estatus) {
+		this.estatus = estatus;
+	}
+}
+
+

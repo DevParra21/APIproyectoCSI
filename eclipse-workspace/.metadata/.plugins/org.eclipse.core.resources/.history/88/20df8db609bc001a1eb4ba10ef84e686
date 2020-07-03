@@ -1,0 +1,9 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import com.proyectocsi.api.rest.models.entity.Profesor;
+
+public interface IProfesorService {
+	public List<Profesor> findAll();
+}

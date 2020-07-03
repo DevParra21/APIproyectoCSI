@@ -1,0 +1,51 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Profesor")
+public class Profesor implements Serializable {
+	@Id
+	private Long numeroEmpleado;
+
+	@ManyToOne
+	private Usuario usuario;
+
+	@ManyToOne
+	private TipoProfesor tipoProfesor;
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public TipoProfesor getTipoProfesor() {
+		return tipoProfesor;
+	}
+
+	public void setTipoProfesor(TipoProfesor tipoProfesor) {
+		this.tipoProfesor = tipoProfesor;
+	}
+
+	public Long getNumeroEmpleado() {
+		return numeroEmpleado;
+	}
+
+	public void setNumeroEmpleado(Long numeroEmpleado) {
+		this.numeroEmpleado = numeroEmpleado;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+}

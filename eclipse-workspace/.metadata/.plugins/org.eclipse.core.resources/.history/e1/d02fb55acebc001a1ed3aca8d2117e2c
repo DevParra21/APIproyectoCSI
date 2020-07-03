@@ -1,0 +1,64 @@
+package com.proyectocsi.api.rest.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.proyectocsi.api.rest.models.entity.Alumno;
+import com.proyectocsi.api.rest.models.services.IAlumnoService;
+@CrossOrigin(origins = {"http://localhost:4200/"})
+@RestController
+@RequestMapping("/api")
+public class AlumnoController {
+	
+	@Autowired
+	private IAlumnoService alumnoService;
+	
+	@GetMapping("/alumnos")
+	public List<Alumno> index(){
+		return alumnoService.findAll();
+	}
+	
+	@GetMapping("/alumno/{id}")
+	public Alumno show(@PathVariable Long id) {
+		return this.alumnoService.findById(id);
+	}
+	
+	@PostMapping("/registra-alumno")
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public Alumno create(@RequestBody Alumno alumno) {
+		return this.alumnoService.save(alumno);
+	}
+	
+	@PutMapping("modifica-alumno/{id}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public Alumno update(@RequestBody Alumno alumno, @PathVariable Long id) {
+		Alumno alumnoActual = this.alumnoService.findById(id);
+		
+		alumnoActual.getUsuario().setEstatus(alumno.getUsuario().getEstatus());
+		alumnoActual.getUsuario().setApellidoMaterno(alumno.getUsuario().getApellidoMaterno());
+		alumnoActual.getUsuario().setApellidoPaterno(alumno.getUsuario().getApellidoPaterno());
+		alumnoActual.getUsuario().setContrasenia(alumno.getUsuario().getContrasenia());
+		alumnoActual.getUsuario().setNombre(alumno.getUsuario().getNombre());
+		alumnoActual.getUsuario().setNombreUsuario(alumno.getUsuario().getNombreUsuario());
+		
+		return this.alumnoService.save(alumnoActual);
+	}
+	
+	@DeleteMapping("elimina-alumno/{id}")
+	@ResponseStatus(code=HttpStatus.OK)
+	public void delete(@PathVariable Long id) {
+		this.alumnoService.delete(id);
+	}
+}
