@@ -17,7 +17,7 @@ public class EstatusUsuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name = "estatus_nombre", length = 20)
+	@Column(length = 20)
 	private String nombre;
 	
 	public Integer getId() {

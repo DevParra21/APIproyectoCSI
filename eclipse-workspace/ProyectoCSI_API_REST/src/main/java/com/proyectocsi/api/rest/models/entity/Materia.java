@@ -5,12 +5,16 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Materia implements Serializable {
@@ -24,12 +28,15 @@ public class Materia implements Serializable {
 	private Long id;
 
 	@Column(name = "clave_materia", length = 3, nullable = false, unique = true)
+	@NotBlank(message = "E400 - Clave de Materia debe contener información")
 	private String claveMateria;
 	
 	@Column(name = "nombre_materia", length = 50, nullable = false)
+	@NotBlank(message = "E401 - Nombre de Materia debe contener información")
 	private String nombreMateria;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private EstatusMateria estatusMateria;
 
 	@Column(name = "fecha_alta")

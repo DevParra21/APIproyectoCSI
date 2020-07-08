@@ -1,0 +1,15 @@
+package com.proyectocsi.api.rest.models.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.proyectocsi.api.rest.models.entity.Alumno;
+import com.proyectocsi.api.rest.models.entity.Grupo;
+
+public interface IAlumnoDAO extends CrudRepository<Alumno, Long> {
+	
+	@Query("SELECT u FROM Grupo u WHERE u.id NOT IN(SELECT i.grupo FROM inscripciones i WHERE i.matricula = ?1)")
+	public List<Grupo> findByGrupoDisponible(Long matricula);
+}

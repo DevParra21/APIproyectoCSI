@@ -1,0 +1,109 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+public class Grupo implements Serializable {
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@ManyToOne
+	private Materia materia;
+	
+	@ManyToOne
+	private EstatusGrupo estatusGrupo;
+	
+	@Column(name = "cantidad_alumnos", length = 3, nullable = false)
+	private int cantidadAlumnos;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaAlta;
+	
+	@ManyToOne
+	private Usuario usuarioAlta;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fechaUltimaModificacion;
+	
+	@ManyToOne
+	private Usuario usuarioUltimaModificacion;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Materia getMateria() {
+		return materia;
+	}
+
+	public void setMateria(Materia materia) {
+		this.materia = materia;
+	}
+
+	public int getCantidadAlumnos() {
+		return cantidadAlumnos;
+	}
+
+	public void setCantidadAlumnos(int cantidadAlumnos) {
+		this.cantidadAlumnos = cantidadAlumnos;
+	}
+
+	public Date getFechaAlta() {
+		return fechaAlta;
+	}
+
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+	public Usuario getUsuarioAlta() {
+		return usuarioAlta;
+	}
+
+	public void setUsuarioAlta(Usuario usuarioAlta) {
+		this.usuarioAlta = usuarioAlta;
+	}
+
+	public Date getFechaUltimaModificacion() {
+		return fechaUltimaModificacion;
+	}
+
+	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) {
+		this.fechaUltimaModificacion = fechaUltimaModificacion;
+	}
+
+	public Usuario getUsuarioUltimaModificacion() {
+		return usuarioUltimaModificacion;
+	}
+
+	public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
+		this.usuarioUltimaModificacion = usuarioUltimaModificacion;
+	}
+
+	public EstatusGrupo getEstatusGrupo() {
+		return estatusGrupo;
+	}
+
+	public void setEstatusGrupo(EstatusGrupo estatusGrupo) {
+		this.estatusGrupo = estatusGrupo;
+	}
+}

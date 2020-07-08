@@ -16,11 +16,11 @@ public class EstatusMateria implements Serializable {
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "nombre_estatus", length = 25, nullable = false)
-	private String nombreEstatus;
+	@Column(length = 25, nullable = false)
+	private String nombre;
 
 	public int getId() {
 		return id;
@@ -31,11 +31,11 @@ public class EstatusMateria implements Serializable {
 	}
 
 	public String getNombreEstatus() {
-		return nombreEstatus;
+		return nombre;
 	}
 
 	public void setNombreEstatus(String nombreEstatus) {
-		this.nombreEstatus = nombreEstatus;
+		this.nombre = nombreEstatus;
 	}
 
 }

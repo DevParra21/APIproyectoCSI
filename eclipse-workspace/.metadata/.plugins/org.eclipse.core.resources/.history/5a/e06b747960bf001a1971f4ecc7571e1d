@@ -1,0 +1,56 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+
+@Entity
+public class Profesor implements Serializable {
+	@Id
+	@NotBlank(message = "E200 - Número de Empleado debe contener información")
+	@Positive(message = "E210 - Número de Empleado debe ser mayor a cero")
+	@Pattern(regexp = "[,’<>&=]", message = "Número de Empleado no debe tener caracteres especiales.")
+	private Long numeroEmpleado;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Usuario usuario;
+
+	@ManyToOne
+	private TipoProfesor tipoProfesor;
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public TipoProfesor getTipoProfesor() {
+		return tipoProfesor;
+	}
+
+	public void setTipoProfesor(TipoProfesor tipoProfesor) {
+		this.tipoProfesor = tipoProfesor;
+	}
+
+	public Long getNumeroEmpleado() {
+		return numeroEmpleado;
+	}
+
+	public void setNumeroEmpleado(Long numeroEmpleado) {
+		this.numeroEmpleado = numeroEmpleado;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+}

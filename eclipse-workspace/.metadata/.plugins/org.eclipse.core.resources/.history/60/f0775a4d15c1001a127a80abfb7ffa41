@@ -1,0 +1,51 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Positive;
+
+@Entity
+public class Alumno implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	/*
+	 * 
+	 */
+	public Alumno() {}
+	
+	@Id
+	@Column(length = 7, insertable = true, nullable = false, unique = true)
+	@Positive(message = "E310 - Matrícula debe ser mayor a cero")
+	private Long matricula;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Usuario usuario;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "inscripciones",joinColumns = @JoinColumn(name="matricula"),inverseJoinColumns = @JoinColumn(name="grupo"))
+	Set<Grupo> grupos;
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setId(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	public Long getMatricula() {
+		return matricula;
+	}
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
+	}
+	
+}

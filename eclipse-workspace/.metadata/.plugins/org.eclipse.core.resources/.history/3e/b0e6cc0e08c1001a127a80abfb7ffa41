@@ -1,0 +1,26 @@
+package com.proyectocsi.api.rest.models.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToMany;
+
+@Entity
+@IdClass(InscripcionId.class)
+public class Inscripcion implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Inscripcion() {}
+	
+	@Id
+	private Long matricula;
+	
+	@Id
+	private Long grupo;
+}

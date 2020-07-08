@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.proyectocsi.api.rest.models.dao.IGrupoDAO;
 import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.entity.Materia;
 
 @Service
 public class GrupoImpl implements IGrupoService {
@@ -36,6 +37,10 @@ public class GrupoImpl implements IGrupoService {
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		grupoDao.deleteById(id);
+	}
+	
+	public List<Materia> findAllMateria(){
+		return (List<Materia>) grupoDao.findAllMateria();
 	}
 	
 	

@@ -1,0 +1,26 @@
+package com.proyectocsi.api.rest.models.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import com.proyectocsi.api.rest.models.entity.Alumno;
+import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.entity.Inscripcion;
+
+public interface IInscripcionDao extends CrudRepository<Inscripcion, Long> {
+	
+	@Query("insert into inscripcion(alumno, grupo) values(:alumno,:grupo)")
+	public void InsertInscripcion(@Param("alumno") Alumno alumno, @Param("grupo") Grupo grupo);
+	
+	@Query("delete from inscripcion where alumno=:alumno and grupo=:grupo")
+	public void DeleteInscripcion(@Param("alumno") Alumno alumno, @Param("grupo") Grupo grupo);
+	
+	@Query("select g from grupo inner join inscripcion i on g=i.grupo left join alumno a on i.alumno = a where a.matricula!= :?1")
+	public List<Grupo> findAllByNotRegistered(Long idMatricula);
+	
+	@Query("select g from grupo inner join inscripcion i on g=i.grupo inner join alumno a on i.alumno = a where a.matricula = :?1")
+	public List<Grupo> findAllByRegistered(Long idMatricula);
+}

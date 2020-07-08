@@ -19,7 +19,7 @@ public class EstatusMateriaController {
 	@Autowired
 	private IEstatusMateriaService estatusMateria;
 	
-	@GetMapping("/estatusmateria")
+	@GetMapping("/estatus-materia")
 	public List<EstatusMateria> index(){
 		return estatusMateria.findAll();
 	}

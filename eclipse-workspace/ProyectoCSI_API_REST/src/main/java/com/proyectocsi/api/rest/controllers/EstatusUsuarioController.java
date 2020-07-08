@@ -19,7 +19,7 @@ public class EstatusUsuarioController {
 	@Autowired
 	private IEstatusUsuarioService estatusUsuario;
 	
-	@GetMapping("/estatususuario")
+	@GetMapping("/estatus-usuario")
 	public List<EstatusUsuario> index(){
 		return estatusUsuario.findAll();
 	}

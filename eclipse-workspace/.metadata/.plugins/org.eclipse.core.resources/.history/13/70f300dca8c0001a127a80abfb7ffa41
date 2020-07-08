@@ -1,0 +1,44 @@
+package com.proyectocsi.api.rest.auth;
+
+public class EnvVariables {
+	
+	public final static String RSA_PRIVATE="-----BEGIN RSA PRIVATE KEY-----\r\n" + 
+			"MIIEowIBAAKCAQEAyzcOst0yAP+1zg4JW6TDR+MxaHELUdecU7WqpPLrBMuCIW8K\r\n" + 
+			"52kQiz5b2jIUZAhj5ILyArOugSjaGG2ugLS7+ucal8Z71BTm6CpAcxh1hDBst//r\r\n" + 
+			"JQFFrh+FhIE3XP2cBq+oSEwcguAFz7Rd6f+9j9LWwXOLHK4LmPzI/jeLAyiGJHjl\r\n" + 
+			"SUwns716/AXBTccseTQxNGWFhYG3dNjuG21a+bShEpoysC/SWV2qo97VcbLWooRN\r\n" + 
+			"Koc2fIfDOZfk8+cmmwB0Kc1rNa2HagKveG4YgmFNTa+XWqiNZVLyIpdILAAWA+YO\r\n" + 
+			"xjAuVwxxO2teEXte2hP/wD/X7PGi6/TlGdiUfQIDAQABAoIBADFUgy/uPCY77MFB\r\n" + 
+			"bQofG/yGbUcCMhJC+cLkVbFG+sAmOses8gOs4IQ8tgVopMSHuOAO3XrEbXcTGKZX\r\n" + 
+			"ccXymbNViIIRf5vDGy5+mziVVmmpa6ra6BUKkwSqyDmbOHpNYiPJXlt2hnFKun5q\r\n" + 
+			"NWYJW9XfA5zgVIO4yD3yF0SG7Srtq4Lu6jZh/S7Crt6Aw7cXxDlO3z16YLQHJ54t\r\n" + 
+			"cEqPZVoBFWRsuw7BiwOcqFyAnRPEB8SH2sfT0Em5BKrC3MnB2A679X+UB4jdCOJ8\r\n" + 
+			"R7tVg5EvT40Q4w/zdlq9WT3V1MMFFHu9EIANeOJyL7JfN6bkH3y7Sloue7R336te\r\n" + 
+			"xMYBXqECgYEA8QJtpQse4zXCMmttrfORCtcWjdIm+Hcsiva9AASAWX/8U+900tH7\r\n" + 
+			"XBPNvOwPoLXEl36brE7uftXAJq4L1XFvwtfChDl2PnIz8F2zDCIT6W4Smb4gLMhB\r\n" + 
+			"YOj5bpMG3djMnIwPB8B/2v+0xhUAelbaGuaZ4x3Kju4aYi8YLkQMv6kCgYEA19rV\r\n" + 
+			"BSqGnVqAfrnTj/vHVg7otFKPrni3Tjsu/a6oZJfBe7KuLUS23xLEPhey/PyqRHk/\r\n" + 
+			"hH5aS+j9zS1e+rm7Bnyl7togMDV5ZqcLY/Fj32ID7alEdb30Tr3IViXG/Pgsg81C\r\n" + 
+			"0hhnVd5t/DXNauVjhCR6sJaqa9F8UUahdoE/wrUCgYASQE/TVtNA+5o4PUByEubh\r\n" + 
+			"/kXb+ZUv7b52y5amgLDDlliidpjPOk2hvHIxI2NPlVRM8K6TTurquf8yLq4AvPVs\r\n" + 
+			"uPAnGT7mHbnnMwFTIuWFIOvRrr87BPNGhn4VLJcxh7B/DnA48w/7oq+q7H47xYYA\r\n" + 
+			"0YPH2kKzrj5bPxvCrS6V+QKBgQDWMQgAwFoj+pJXLf6JecYr10+C4ApDjvYWYxQW\r\n" + 
+			"FyJx70THgl7j/LOaV/zzwICUGgS7PbWRu+/OM7zlxIfjNDoqDbZ6dWhLbkSxYEEl\r\n" + 
+			"Q3tfRtuvEbAlRgEPwbLyCTqT+4/wmdYctKqVwspQ4vKbiFRf4/L7GAa0RoOeAwBl\r\n" + 
+			"n4utoQKBgEOT+buxo/GLWtJ7QBHTCgXlc8zz04lHxn3ieWVWSDHkTKl/IP/PfzHR\r\n" + 
+			"V2px+VNDlXhQVVfAIFbVYoJS3XtSHEljhTfG/HUju1zQIPlVNTVjdeFZ+HdwKqDX\r\n" + 
+			"QYTyt9EXkCuakaNA7wn00gvcqMVRS3V4a6s5mA2eHaVWYA8XS3qD\r\n" + 
+			"-----END RSA PRIVATE KEY-----";
+	public final static String RSA_PUBLIC="-----BEGIN PUBLIC KEY-----\r\n" + 
+			"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyzcOst0yAP+1zg4JW6TD\r\n" + 
+			"R+MxaHELUdecU7WqpPLrBMuCIW8K52kQiz5b2jIUZAhj5ILyArOugSjaGG2ugLS7\r\n" + 
+			"+ucal8Z71BTm6CpAcxh1hDBst//rJQFFrh+FhIE3XP2cBq+oSEwcguAFz7Rd6f+9\r\n" + 
+			"j9LWwXOLHK4LmPzI/jeLAyiGJHjlSUwns716/AXBTccseTQxNGWFhYG3dNjuG21a\r\n" + 
+			"+bShEpoysC/SWV2qo97VcbLWooRNKoc2fIfDOZfk8+cmmwB0Kc1rNa2HagKveG4Y\r\n" + 
+			"gmFNTa+XWqiNZVLyIpdILAAWA+YOxjAuVwxxO2teEXte2hP/wD/X7PGi6/TlGdiU\r\n" + 
+			"fQIDAQAB\r\n" + 
+			"-----END PUBLIC KEY-----";
+}
+
+
+

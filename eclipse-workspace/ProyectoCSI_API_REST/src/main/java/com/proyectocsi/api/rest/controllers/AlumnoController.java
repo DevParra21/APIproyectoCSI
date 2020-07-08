@@ -1,13 +1,19 @@
 package com.proyectocsi.api.rest.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +35,10 @@ public class AlumnoController {
 	@Autowired
 	private IAlumnoService alumnoService;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	
 	@GetMapping("/alumnos")
 	public List<Alumno> index(){
 		return alumnoService.findAll();
@@ -36,55 +46,84 @@ public class AlumnoController {
 	
 	@GetMapping("/alumnos/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
-		Alumno alumno = null;
+		Alumno consultaAlumno = null;
 		Map<String, Object> response = new HashMap<String, Object>();
 		try {
-			alumno =  this.alumnoService.findById(id);
+			consultaAlumno =  this.alumnoService.findById(id);
+			if(consultaAlumno==null) {
+				response.put("mensaje", "alumno no existe.");
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			}
 		}catch(DataAccessException ex) {
 			response.put("mensaje", "No se pudo establecer la conexión con la base de datos");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		
-		if(alumno==null) {
-			response.put("mensaje", "alumno no existe.");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Alumno>(alumno, HttpStatus.OK);
+		return new ResponseEntity<Alumno>(consultaAlumno, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registra-alumno")
-	public ResponseEntity<?> create(@RequestBody Alumno alumno) {
-		
-		Alumno alumnoNuevo = null;
+	public ResponseEntity<?> create(@Valid @RequestBody Alumno alumno, BindingResult result) {
+		Alumno nuevoAlumno = null;
 		Map<String, Object> response = new HashMap<String, Object>();
+		
+		if(result.hasErrors()) {
+			List<String> errores = new ArrayList<String>();
+			for(FieldError error: result.getFieldErrors()) {
+				errores.add("El campo " + error.getField() + " " + error.getDefaultMessage());
+			}
+			response.put("errores", errores);
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
 		try {
-			alumnoNuevo = this.alumnoService.save(alumno);
-			response.put("mensaje", "El alumno se ha registrado correctamente");
-			response.put("alumno", alumnoNuevo );
+			String encryptedPassword=passwordEncoder.encode(alumno.getUsuario().getContrasenia());
+			alumno.getUsuario().setContrasenia(encryptedPassword);
+			nuevoAlumno = this.alumnoService.save(alumno);
 		}
-		catch(DataAccessException ex)
-		{
-			response.put("mensaje", "No se pudo establecer la conexión a la base de datos");
-			response.put("error", ex.getMessage());
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		catch(DataAccessException ex) {
+			response.put("mensaje", "Error al registrar los datos del alumno");
+			response.put("error",ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+		response.put("mensaje", "Los datos del alumno se han registrado correctamente");
+		response.put("alumno", nuevoAlumno);
 		
 		return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("modifica-alumno/{id}")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public Alumno update(@RequestBody Alumno alumno, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody Alumno alumno, @PathVariable Long id) {
+		Alumno actualizacionAlumno = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		
 		Alumno alumnoActual = this.alumnoService.findById(id);
+		if(alumnoActual==null) {
+			response.put("mensaje", "No se pudo actualizar la información");
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		}
 		
-		alumnoActual.getUsuario().setEstatus(alumno.getUsuario().getEstatus());
-		alumnoActual.getUsuario().setApellidoMaterno(alumno.getUsuario().getApellidoMaterno());
-		alumnoActual.getUsuario().setApellidoPaterno(alumno.getUsuario().getApellidoPaterno());
-		alumnoActual.getUsuario().setContrasenia(alumno.getUsuario().getContrasenia());
-		alumnoActual.getUsuario().setNombre(alumno.getUsuario().getNombre());
-		alumnoActual.getUsuario().setNombreUsuario(alumno.getUsuario().getNombreUsuario());
+		try {
+			alumnoActual.getUsuario().setEstatus(alumno.getUsuario().getEstatus());
+			alumnoActual.getUsuario().setApellidoMaterno(alumno.getUsuario().getApellidoMaterno());
+			alumnoActual.getUsuario().setApellidoPaterno(alumno.getUsuario().getApellidoPaterno());
+			alumnoActual.getUsuario().setNombre(alumno.getUsuario().getNombre());
+			alumnoActual.getUsuario().setNombreUsuario(alumno.getUsuario().getNombreUsuario());
+			
+			String encryptedPassword = passwordEncoder.encode(alumno.getUsuario().getContrasenia());
+			alumnoActual.getUsuario().setContrasenia(encryptedPassword);
+			
+			actualizacionAlumno = this.alumnoService.save(alumnoActual);
+		}
+		catch(DataAccessException ex) {
+			response.put("mensaje", "Error al intentar actualizar los datos del alumno");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
-		return this.alumnoService.save(alumnoActual);
+		response.put("mensaje", "Actualización realizada con éxito");
+		response.put("alumno",actualizacionAlumno);
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("elimina-alumno/{id}")

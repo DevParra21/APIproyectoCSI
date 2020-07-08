@@ -1,0 +1,34 @@
+package com.proyectocsi.api.rest.auth;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.stereotype.Component;
+
+import com.proyectocsi.api.rest.models.entity.Usuario;
+import com.proyectocsi.api.rest.models.services.IUsuarioService;
+
+@Component
+public class TokenInfoAdicional implements TokenEnhancer {
+	
+	@Autowired
+	private IUsuarioService usuarioService;
+	
+	@Override
+	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+		// TODO	obtener usuario, checar rol, y dependiendo del rol, obtener info de Entidad Alumno o Profesor. Si es Admin, no hacerlo.
+		Usuario usuario = usuarioService.findByNombreUsuario(authentication.getName());
+		
+		Map<String,Object> info = new HashMap<String, Object>();
+		info.put("nombre_usuario", usuario.getNombreUsuario());
+		info.put("", value)
+		((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
+		return accessToken;
+	}
+
+}

@@ -13,3 +13,5 @@
 1593640472060	Rename type 'ITipoProfesor'
 1593640509629	Rename type 'RolService'
 1593640528461	Rename type 'UsuarioService'
+1593987446070	Rename local variable 'alumno'
+1593989685982	Rename local variable 'profesorNuevo'

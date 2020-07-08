@@ -1,9 +1,13 @@
 package com.proyectocsi.api.rest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.entity.Materia;
 import com.proyectocsi.api.rest.models.services.IGrupoService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -31,27 +36,77 @@ public class GrupoController {
 		return this.grupoService.findAll();
 	}
 	
+	@GetMapping("/grupos/materias")
+	public List<Materia> listaMaterias(){
+		return this.grupoService.findAllMateria();
+	}
+	
 	@GetMapping("/grupos/{id}")
-	public Grupo show(@PathVariable Long id) {
-		return this.grupoService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		Grupo consultaGrupo = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		try {
+			consultaGrupo = this.grupoService.findById(id);
+			if(consultaGrupo==null) {
+				response.put("mensaje", "Grupo con el id proporcionado no existe.");
+				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+			}
+		}catch(DataAccessException ex) {
+			response.put("mensaje", "Error al realizar la consulta de grupo");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Grupo>(consultaGrupo,HttpStatus.OK);
 	}
 	
 	@PostMapping("/registra-grupo")
-	@ResponseStatus(code=HttpStatus.CREATED)
-	public Grupo create(@RequestBody Grupo grupo) {
-		return this.grupoService.save(grupo);
+	public ResponseEntity<?> create(@RequestBody Grupo grupo) {
+		Grupo nuevoGrupo = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		try {
+			nuevoGrupo = this.grupoService.save(grupo);
+		}
+		catch(DataAccessException ex) {
+			response.put("mensaje", "error al intentar registrar nuevo grupo");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "Grupo registrado correctamente");
+		response.put("grupo", nuevoGrupo);
+		
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
+		
 	}
 	
 	@PutMapping("/modifica-grupo/{id}")
-	@ResponseStatus(code=HttpStatus.CREATED)
-	public Grupo update(@RequestBody Grupo grupo, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody Grupo grupo, @PathVariable Long id) {
 		Grupo grupoActual = this.grupoService.findById(id);
+		Grupo actualizacionGrupo = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			
+			if(grupoActual == null) {
+				response.put("mensaje", "Error al actualizar información de grupo. Grupo no existe");
+				return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			grupoActual.setCantidadAlumnos(grupo.getCantidadAlumnos());
+			grupoActual.setMateria(grupo.getMateria());
+			actualizacionGrupo = this.grupoService.save(grupoActual);
+		}
+		catch(DataAccessException ex) {
+			response.put("mensaje", "Error al intentar actualizar el grupo");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
-		grupoActual.setCantidadAlumnos(grupo.getCantidadAlumnos());
-		grupoActual.setMateria(grupo.getMateria());
+		response.put("mensaje", "Actualizacion de grupo correcto");
+		response.put("grupo", actualizacionGrupo);
 		
-		return this.grupoService.save(grupoActual);
-		
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/elimina-grupo/{id}")

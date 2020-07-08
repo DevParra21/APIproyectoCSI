@@ -1,0 +1,15 @@
+package com.proyectocsi.api.rest.models.dao;
+
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.proyectocsi.api.rest.models.entity.Usuario;
+
+public interface IUsuarioDAO extends CrudRepository<Usuario, Long> {
+	
+	public Usuario findByUsername(String username);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.nombre-usuario=?1")
+	public Usuario findByNombreUsuario(String nombreUsuario);
+}

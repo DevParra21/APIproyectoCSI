@@ -1,12 +1,19 @@
 package com.proyectocsi.api.rest.models.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Positive;
 
 @Entity
 public class Alumno implements Serializable {
@@ -15,12 +22,21 @@ public class Alumno implements Serializable {
 	/*
 	 * 
 	 */
+	public Alumno() {}
+	
 	@Id
 	@Column(length = 7, insertable = true, nullable = false, unique = true)
+	@Positive(message = "E310 - Matrícula debe ser mayor a cero")
 	private Long matricula;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name="alumnos_grupos",joinColumns = @JoinColumn(name="matricula_id"),
+	inverseJoinColumns = @JoinColumn(name="grupo_id"),
+	uniqueConstraints = {@UniqueConstraint(columnNames = {"matricula_id","grupo_id"})})
+	Set<Grupo> grupos;
 	
 	public Usuario getUsuario() {
 		return usuario;

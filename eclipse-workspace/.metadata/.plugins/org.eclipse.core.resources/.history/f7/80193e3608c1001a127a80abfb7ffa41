@@ -1,0 +1,17 @@
+package com.proyectocsi.api.rest.models.services;
+
+import java.util.List;
+
+import com.proyectocsi.api.rest.models.entity.Alumno;
+import com.proyectocsi.api.rest.models.entity.Grupo;
+
+public interface IInscripcionService {
+	
+	public void InsertInscripcion(Alumno alumno, Grupo grupo);
+	public void DeleteInscripcion(Alumno alumno, Grupo grupo);
+	
+	public List<Grupo> findAllByNotRegistered(Long idMatricula);
+	public List<Grupo> findAllByRegistered(Long idMatricula);
+	
+
+}

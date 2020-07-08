@@ -1,0 +1,14 @@
+package com.proyectocsi.api.rest.models.dao;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.entity.Materia;
+import com.proyectocsi.api.rest.models.entity.Usuario;
+
+public interface IGrupoDAO extends CrudRepository<Grupo, Long> {
+	
+	@Query("SELECT m FROM Materia m WHERE m.estatusMateria=1")
+	public Materia findAllMateria();
+}

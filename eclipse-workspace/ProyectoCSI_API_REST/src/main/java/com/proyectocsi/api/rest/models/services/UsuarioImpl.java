@@ -42,4 +42,5 @@ public class UsuarioImpl implements IUsuarioService {
 		// TODO Auto-generated method stub
 		usuarioDao.deleteById(id);
 	}
+
 }

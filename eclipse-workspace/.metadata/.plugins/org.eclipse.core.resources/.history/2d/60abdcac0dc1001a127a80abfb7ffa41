@@ -1,0 +1,44 @@
+package com.proyectocsi.api.rest.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.services.IInscripcionService;
+
+@CrossOrigin(origins = {"http://localhost:4200"})
+@RestController
+@RequestMapping("/api")
+public class InscripcionController {
+	
+	@Autowired
+	private IInscripcionService inscripcionService;
+	
+	@GetMapping("/grupos-disponibles/{id}")
+	public List<Grupo> GruposDisponibles(@PathVariable Long idMatricula){
+		return this.inscripcionService.findAllByNotRegistered(idMatricula);
+	}
+	
+	@GetMapping("/grupos-inscritos{id}")
+	public List<Grupo> GruposInscritos( @PathVariable Long idMatricula){
+		return this.inscripcionService.findAllByRegistered(idMatricula);
+	}
+	
+	@PostMapping("/inscripcion")
+	public void inscripcion(@PathVariable Long idMatricula,@PathVariable  Long idGrupo) {
+		this.inscripcionService.InsertInscripcion(idMatricula, idGrupo);
+	}
+	
+	@DeleteMapping("/baja-inscripcion")
+	public void bajaInscripcion(@PathVariable Long idMatricula,@PathVariable  Long idGrupo) {
+		this.inscripcionService.DeleteInscripcion(idMatricula, idGrupo);
+	}
+}

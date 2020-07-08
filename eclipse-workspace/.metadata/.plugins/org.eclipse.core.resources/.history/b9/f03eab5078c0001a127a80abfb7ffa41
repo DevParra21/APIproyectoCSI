@@ -1,0 +1,5 @@
+package com.proyectocsi.api.rest.models.services;
+
+public class UsuarioAuthService {
+
+}

@@ -1,9 +1,13 @@
 package com.proyectocsi.api.rest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +36,23 @@ public class UsuarioRestController {
 	}
 	
 	@GetMapping("/usuario/{id}")
-	public Usuario show(@PathVariable Long id) {
-		return this.usuarioService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		Usuario consultaUsuario = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			consultaUsuario = this.usuarioService.findById(id);
+			if(consultaUsuario == null) {
+				response.put("mensaje", "usuario no existe");
+				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+			}
+		}
+		catch(DataAccessException ex) {
+			response.put("mensaje", "error al realizar consulta");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Usuario>(consultaUsuario, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registra-usuario")

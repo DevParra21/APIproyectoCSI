@@ -1,0 +1,5 @@
+package com.proyectocsi.api.rest.models.dao;
+
+public interface IInscripcionDao {
+
+}

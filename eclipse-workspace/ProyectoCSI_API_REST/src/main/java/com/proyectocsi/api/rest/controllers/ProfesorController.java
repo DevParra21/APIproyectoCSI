@@ -38,24 +38,43 @@ public class ProfesorController {
 	@GetMapping("/maestros/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
-		Profesor profesor = null;
-		HashMap<String, Object> response = new HashMap<String, Object>();
-		
+		Profesor consultaProfesor = this.profesorService.findById(id);
+		Map<String, Object> response = new HashMap<String, Object>();
 		try {
-			profesor = this.profesorService.findById(id);
+			
+			if(consultaProfesor==null) {
+				response.put("mensaje", "No existe Maestro con ese numero de empleado.");
+				return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+			}
 		}
 		catch(DataAccessException ex) {
-			response.put("mensaje", "no se pudo establecer una conexión con la base de datos.");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("mensaje", "Ocurrió un problema al realizar la consulta");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<Profesor>(profesor, HttpStatus.OK);
+		
+		return new ResponseEntity<Profesor>(consultaProfesor, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registra-maestro")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public Profesor create(@RequestBody Profesor profesor) {
-		return this.profesorService.save(profesor);
+	public ResponseEntity<?> create(@RequestBody Profesor profesor) {
+		Profesor nuevoProfesor = null;
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		try {
+			nuevoProfesor = this.profesorService.save(profesor);
+		}
+		catch(DataAccessException ex) {
+			response.put("mensaje", "Error al registrar los datos del maestro.");
+			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje","El maestro ha sido registrado con éxito");
+		response.put("profesor", nuevoProfesor);
+		
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/modifica-maestro/{id}")
@@ -64,7 +83,8 @@ public class ProfesorController {
 		Profesor profesorActual = this.profesorService.findById(id);
 		
 		profesorActual.setNumeroEmpleado(profesor.getNumeroEmpleado());
-		profesorActual.getTipoProfesor().setId(profesor.getTipoProfesor().getId());
+		profesorActual.setTipoProfesor(profesor.getTipoProfesor());
+		profesorActual.getUsuario().setEstatus(profesor.getUsuario().getEstatus());
 		profesorActual.getUsuario().setApellidoMaterno(profesor.getUsuario().getApellidoMaterno());
 		profesorActual.getUsuario().setApellidoPaterno(profesor.getUsuario().getApellidoPaterno());
 		profesorActual.getUsuario().setContrasenia(profesor.getUsuario().getContrasenia());

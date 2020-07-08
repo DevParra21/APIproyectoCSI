@@ -1,0 +1,9 @@
+package com.proyectocsi.api.rest.models.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.proyectocsi.api.rest.models.entity.Inscripcion;
+
+public interface IInscripcionDao extends CrudRepository<Inscripcion, Long> {
+
+}

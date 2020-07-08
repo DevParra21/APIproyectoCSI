@@ -1,37 +1,37 @@
 /*Estatus Usuario*/
-insert into estatus_usuario(id, estatus_nombre) VALUES(1, 'Activo');
-insert into estatus_usuario(id, estatus_nombre) VALUES(99, 'Inactivo');
+insert into estatus_usuario(id, nombre) VALUES(1, 'Activo');
+insert into estatus_usuario(id, nombre) VALUES(99, 'Inactivo');
 
 /*Estatus Materia*/
-insert into estatus_materia(nombre_estatus) VALUES('Activa');
-insert into estatus_materia(nombre_estatus) VALUES('Inactiva');
+insert into estatus_materia(id, nombre) VALUES(1, 'Activa');
+insert into estatus_materia(id, nombre) VALUES(99, 'Inactiva');
 
 /*Estatus Grupo*/
-insert into estatus_grupo(nombre_estatus) VALUES('Disponible');
-insert into estatus_grupo(nombre_estatus) VALUES('Lleno');
-insert into estatus_grupo(nombre_estatus) VALUES('Inactivo');
+insert into estatus_grupo(id, nombre) VALUES(1, 'Disponible');
+insert into estatus_grupo(id, nombre) VALUES(2, 'Lleno');
+insert into estatus_grupo(id, nombre) VALUES(99, 'Inactivo');
 
 /*Tipo Profesor*/
-insert into tipo_profesor(tipo_nombre) VALUES('Fijo');
-insert into tipo_profesor(tipo_nombre) VALUES('Temporal');
+insert into tipo_profesor(id, nombre) VALUES(1,'Fijo');
+insert into tipo_profesor(id, nombre) VALUES(99, 'Temporal');
 
 /*Roles*/
-insert into rol(rol_nombre) VALUES('Administrador');
-insert into rol(rol_nombre) VALUES('Alumno');
-insert into rol(rol_nombre) VALUES('Profesor');
+insert into rol(rol_nombre) VALUES('ROLE_ADMIN');
+insert into rol(rol_nombre) VALUES('ROLE_ALUMNI');
+insert into rol(rol_nombre) VALUES('ROLE_PROFFESOR');
 
 /*Administradores*/
-insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Patricio', 'Escudero', 'Parra', 'pEscudero', 'csi123!', 1,1);
-insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Rigo', 'Escudero', 'Hernández', 'rEscudero', 'csi124?', 1,1);
+insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Patricio', 'Escudero', 'Parra', 'pEscudero', '$2a$10$awXHOTgl1dRthUgptWn53Of6IUr82jA.imtlRmV/WEcUO0Sod2iVq', 1,1);
+insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Rigo', 'Escudero', 'Hernández', 'rEscudero', '$2a$10$LlnUo9x9RfNlEIVU/9uRrulT3xYNcIIddQ9oBVZ7k3NhgD1XyG9Ci', 1,1);
 
 /*Alumnos*/
-insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Weendy Carolina', 'Escudero', 'Parra', 'wEscudero', 'csi125!?', 1,2);
+insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Weendy Carolina', 'Escudero', 'Parra', 'wEscudero', '$2a$10$5fAddiGzU3f/sSvU/G/TROJ6JorAdYmmCct1K0DvvcYqqCdPO.AKq', 1,2);
 insert into alumno(matricula, usuario_id) VALUES(1000000,3);
-insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Andrea Sarahí', 'Escudero', 'Parra', 'aEscudero', 'csi130!?', 1,2);
+insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('Andrea Sarahí', 'Escudero', 'Parra', 'aEscudero', '$2a$10$AdJG0MlSePnTE/tDu1ZyEuLOrMs.j240qmM3Cs/MmHlt0UQCToqUC', 1,2);
 insert into alumno(matricula, usuario_id) VALUES(1000001,4);
 
 /*Profesores*/
-insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('María del Carmen', 'Parra', 'Guzmán', 'profCarmen', 'csi100?', 1,3);
+insert into usuario(nombre, apellido_materno, apellido_paterno, nombre_usuario, contrasenia, estatus_id, rol_id) VALUES('María del Carmen', 'Parra', 'Guzmán', 'profCarmen', '$2a$10$AdJG0MlSePnTE/tDu1ZyEuLOrMs.j240qmM3Cs/MmHlt0UQCToqUC', 1,3);
 insert into profesor(numero_empleado, tipo_profesor_id, usuario_id) VALUES(120300,1,5);
 
 /*Materia*/

@@ -1,0 +1,24 @@
+package com.proyectocsi.api.rest.models.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.proyectocsi.api.rest.models.entity.Grupo;
+import com.proyectocsi.api.rest.models.entity.Inscripcion;
+
+public interface IInscripcionDao extends CrudRepository<Inscripcion, Long> {
+	
+	@Query(value = "insert into Inscripcion(matricula, grupo) values(?1,?2)", nativeQuery = true)
+	public void InsertInscripcion(Long matricula, Long grupo);
+	
+	@Query(value = "delete from Inscripcion where matricula=?1 and grupo=?2", nativeQuery = true)
+	public void DeleteInscripcion(Long matricula, Long grupo);
+	
+	@Query(value="SELECT * FROM grupo g WHERE g.id NOT IN(SELECT i.grupo FROM inscripcion i WHERE i.matricula = ?1)", nativeQuery = true)
+	public List<Grupo> findAllByNotRegistered(Long idMatricula);
+	
+	@Query(value="SELECT * FROM grupo g WHERE g.id IN(SELECT i.grupo FROM inscripcion i WHERE i.matricula = ?1)", nativeQuery = true)
+	public List<Grupo> findAllByRegistered(Long idMatricula);
+}

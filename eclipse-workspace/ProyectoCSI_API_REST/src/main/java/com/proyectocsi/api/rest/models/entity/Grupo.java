@@ -2,15 +2,21 @@ package com.proyectocsi.api.rest.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Positive;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Grupo implements Serializable {
@@ -25,10 +31,12 @@ public class Grupo implements Serializable {
 	@ManyToOne
 	private Materia materia;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private EstatusGrupo estatusGrupo;
 	
 	@Column(name = "cantidad_alumnos", length = 3, nullable = false)
+	@Positive(message = "E510 - La cantidad de alumnos debe ser mayor que cero")
 	private int cantidadAlumnos;
 	
 	@Temporal(TemporalType.DATE)
@@ -36,6 +44,9 @@ public class Grupo implements Serializable {
 	
 	@ManyToOne
 	private Usuario usuarioAlta;
+	
+	@ManyToMany(mappedBy = "grupos")
+	Set<Alumno> alumnos;
 	
 	@Temporal(TemporalType.DATE)
 	private Date fechaUltimaModificacion;

@@ -1,0 +1,5 @@
+package com.proyectocsi.api.rest.auth;
+
+public class EnvVariables {
+	public final static String  RSA_KEY = "asdfdfsalk.lkj3lkjsfc.dgfdsdfg";
+}
